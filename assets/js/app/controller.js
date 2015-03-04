@@ -2,79 +2,21 @@ angular.module('app.controllers', ['app.services'])
 .controller('homeCtrl', function($scope) {
 
 })
-.controller('loginCtrl', function($scope, validateService) {
-
-
-	var emailPass = false;
-	var passPass = false;
-	var loginObject = {};
-	$scope.emailErrorMsg = false;
-	$scope.passwordErrorMsg = false;
-
-	// $scope.emailChanged = function(username) {
-	// 	if(validator.isEmail(username)) {
-	// 		emailPass = true;
-	// 		$scope.emailErrorMsg = false;
-	// 	} else {
-	// 		$scope.emailErrorMsg = true;
-	// 		emailPass = false;
-	// 	}
-	// };
-	// $scope.passwordChanged = function(password) {
-	// 	if(validator.isNull(password)) {
-	// 		$scope.passwordErrorMsg = true;
-	// 		passPass = false;
-	// 	} 
-	// 	else {
-	// 		passPass = true;
-	// 		$scope.passwordErrorMsg = false;
-	// 	}
-	// }
+.controller('loginCtrl', function($scope, validateService, objectLog) {
 
 	$scope.loginSubmit = function(username, password) {
-
 		$scope.validateFunc = validateService(username, password);
-		console.log($scope.validateFunc);
 		$scope.emailErrorMsg = $scope.validateFunc.errorObject.email;
 		$scope.passwordErrorMsg = $scope.validateFunc.errorObject.password;
+		$scope.logObject = objectLog($scope.validateFunc);
 	};
 })
-.controller('registerCtrl', function($scope) {
-
-	var emailPass = false;
-	var passPass = false;
-	var loginObject = {};
-	$scope.emailErrorMsg = false;
-	$scope.passwordErrorMsg = false;
-
-	$scope.emailChanged = function(username) {
-		if(validator.isEmail(username)) {
-			emailPass = true;
-			$scope.emailErrorMsg = false;
-		} else {
-			$scope.emailErrorMsg = true;
-			emailPass = false;
-		}
-	};
-	$scope.passwordChanged = function(password) {
-		if(validator.isNull(password)) {
-			$scope.passwordErrorMsg = true;
-			passPass = false;
-		} 
-		else {
-			passPass = true;
-			$scope.passwordErrorMsg = false;
-		}
-	}
+.controller('registerCtrl', function($scope, validateService, objectLog) {
 
 	$scope.loginSubmit = function(username, password) {
-		if(emailPass && passPass) {
-			loginObject = {
-				username: username,
-				email: username,
-				password: password
-			};
-		}
-		console.log(loginObject);
+		$scope.validateFunc = validateService(username, password);
+		$scope.emailErrorMsg = $scope.validateFunc.errorObject.email;
+		$scope.passwordErrorMsg = $scope.validateFunc.errorObject.password;
+		$scope.logObject = objectLog($scope.validateFunc);
 	};
 });

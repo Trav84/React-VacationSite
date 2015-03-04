@@ -34,4 +34,20 @@ angular.module('app.services', [])
 
 		return loginObject;
 	};
+})
+.factory('objectLog', function() {
+	return function(validated) {
+		var noEmailError = false;
+		var noPassError = false;
+
+		if(validated.errorObject.email.length === 0) {
+			noEmailError = true;
+		}
+		if(validated.errorObject.password.length === 0) {
+			noPassError = true;
+		}
+		if(noEmailError && noPassError) {
+			console.log(validated.loginTracker);
+		}
+	}
 });
