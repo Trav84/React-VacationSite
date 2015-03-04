@@ -5,8 +5,10 @@ angular.module('app.services', [])
 		var passPass = true;
 		var loginObject = {
 				loginTracker: {
+					username: '',
 					identifier: '',
-					password: ''
+					password: '',
+					success: false
 				},
 				errorObject: {
 					email: '',
@@ -28,8 +30,10 @@ angular.module('app.services', [])
 			passPass = true;
 		}
 		if(emailPass && passPass) {
+			loginObject.loginTracker.username = username;
 			loginObject.loginTracker.identifier = username;
 			loginObject.loginTracker.password = password;
+			loginObject.loginTracker.success = true;
 		}
 
 		return loginObject;
@@ -39,6 +43,7 @@ angular.module('app.services', [])
 	return function(validated) {
 		var noEmailError = false;
 		var noPassError = false;
+		var success = false;
 
 		if(validated.errorObject.email.length === 0) {
 			noEmailError = true;
@@ -48,6 +53,7 @@ angular.module('app.services', [])
 		}
 		if(noEmailError && noPassError) {
 			console.log(validated.loginTracker);
+			success = true;
 		}
 	}
 });

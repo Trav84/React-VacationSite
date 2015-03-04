@@ -15,6 +15,16 @@ angular.module('app', ['app.controllers', 'ui.router'])
 		url: '/register',
 		templateUrl: 'templates/register.html',
 		controller: 'registerCtrl'
+	})
+	.state('dashboard', {
+		url: '/dashboard', 
+		templateUrl: 'templates/dashboard.html',
+		controller: 'dashboardCtrl'
+	})
+	.state('assignment', {
+		url: '/assignment',
+		templateUrl: 'templates/assignment.html',
+		controller: 'assignmentCtrl'
 	});
 	$urlRouterProvider.otherwise('/login');
 });
