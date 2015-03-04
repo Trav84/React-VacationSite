@@ -3,8 +3,8 @@
 		<h1> Login </h1>
 	</header>
 	<form ng-submit="loginSubmit(username, userpassword)">
-		<input ng-change="emailChanged(username)" ng-model="username" type="text" placeholder="Please enter your username"> 
-		<input ng-change="passwordChanged(userpassword)" ng-model="userpassword" type="Password" placeholder="password">
+		<input ng-model="username" type="text" placeholder="Please enter your username"> 
+		<input ng-model="userpassword" type="Password" placeholder="password">
 		<button> Log In </button>
 	</form>
 	<span ng-show="emailErrorMsg"> That is not a valid email </span>
