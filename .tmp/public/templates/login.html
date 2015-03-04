@@ -1,0 +1,15 @@
+<section ng-controller="loginCtrl">
+	<header>
+		<h1> Login </h1>
+	</header>
+	<form ng-submit="loginSubmit(username, userpassword)">
+		<input ng-model="username" type="text" placeholder="Please enter your username"> 
+		<input ng-model="userpassword" type="Password" placeholder="password">
+		<button> Log In </button>
+	</form>
+	<span ng-show="emailErrorMsg"> That is not a valid email </span>
+	<span ng-show="passwordErrorMsg"> That is not a valid password </span>
+	<div>
+		<a ui-sref="register"> Sign Up for Iron Works </a>
+	</div>
+</section>
