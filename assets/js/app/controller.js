@@ -62,11 +62,37 @@ angular.module('app.controllers', ['app.services'])
 .controller('dashboardCtrl', function() {
 
 })
-.controller('assignmentCtrl', function($scope, verify) {
+.controller('assignmentCtrl', function($scope, $http, verify) {
 	$scope.assignmentSubmit = function(assignment) {
 		$scope.assign = verify($scope.assignment);
 		if($scope.assign.valid) {
 			console.log($scope.assign);
+			$http.post('/assignment', $scope.assign)
+			.success(function(newAssignmet) {
+				console.log(newAssignmet);
+				$scope.assignment.name = '';
+				$scope.assignment.dueAt = '';
+				$scope.assignment.url = '';
+			})
+			.error(function(err) {
+				console.log(err);
+			});
 		}
 	};
+})
+.controller('viewAssignmentsCtrl', function($scope, $http, $state) {
+	$http.get('/assignment')
+	.success(function(recieved) {
+		$scope.allAssignments = recieved;
+	})
+	.error(function(err) {
+		console.log(err);
+	});
+
+	$scope.assignmentSubmit = function() {
+		$state.go('submitAssignment');
+	};
+})
+.controller('submitAssignmentCtrl', function() {
+
 });

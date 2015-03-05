@@ -24,13 +24,23 @@ h2 {
   border-bottom: 1px solid black;
   position: relative; }
 
+a {
+  padding-right: 1em; }
+
+.assignments {
+  border: 1px solid black;
+  margin: 1em 1em;
+  padding: 0.4em 0.4em;
+  background-color: lightgrey; }
+
 footer {
   background-color: #333333;
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  color: #c3cfda; }
+  color: #c3cfda;
+  overflow: hidden; }
   footer div {
     display: inline-block;
     font-size: 1.5em;

@@ -1,0 +1,15 @@
+<section>
+	<header>
+		<h1> Assignments </h1>
+	</header>
+	<h2> 
+		<a ui-sref="dashboard"> Dashboard </a> 
+		<a ui-sref="assignment"> Create New Assignment </a> 
+	</h2>
+	<div class="assignments" ng-repeat="assignment in allAssignments">
+		<p> {{assignment.name}} </p>
+		<p> <a ng-href="{{assignment.url}}"> Link </a> </p>
+		<p> {{assignment.dueAt}} </p>
+		<button ng-click="assignmentSubmit()"> Submit Assignment </button>
+	</div>
+</section>
