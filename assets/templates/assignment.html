@@ -1,1 +1,24 @@
-<h1> Assignments </h1>
+<section ng-controller="assignmentCtrl">
+	<header>
+		<h2> Assignment Creation </h2>
+	</header>
+	<form ng-submit="loginSubmit(username, userpassword)">
+		<div>
+			<input ng-model="assignmentName" type="text" placeholder="Please enter the name of the assignment"> 
+		</div>
+		<div>
+			<input ng-model="dueAt" type="datetime-local" placeholder="Date Assignment is Due">
+		</div>
+		<div>
+			<input ng-model="assignmentUrl" type="text" placeholder="URL of Assignment">
+		</div>
+		<div>
+			<button> Sign Up </button>
+		</div>
+	</form>
+	<span ng-show="emailErrorMsg"> That is not a valid email </span>
+	<span ng-show="passwordErrorMsg"> That is not a valid password </span>
+	<div>
+		<a ui-sref="login"> Back to the Log In Page! </a>
+	</div>
+</section>

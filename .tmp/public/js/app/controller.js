@@ -2,7 +2,7 @@ angular.module('app.controllers', ['app.services'])
 .controller('homeCtrl', function($scope) {
 
 })
-.controller('loginCtrl', function($scope, $http, $state, validateService, objectLog) {
+.controller('loginCtrl', function($scope, $http, $state, validateService, objectLog, errorMessageSort) {
 
 	$scope.loginSubmit = function(username, password) {
 		$scope.validateFunc = validateService(username, password);
@@ -16,14 +16,11 @@ angular.module('app.controllers', ['app.services'])
 			};
 			$http.post('/auth/local', htmlCredentials)
 			.success(function(res) {
-				console.log('Success!');
-				console.log(res);
-
+				if(res.errors.length > 0) {
+					$scope.loginErrorArray = errorMessageSort(res.errors[0]);
+				}
 				if(res.success) {
 					$state.go('dashboard');
-				}
-				else {
-					$scope.emailErrorMsg = res.errors;
 				}
 			})
 			.error(function(err) {
@@ -33,7 +30,7 @@ angular.module('app.controllers', ['app.services'])
 		}
 	};
 })
-.controller('registerCtrl', function($scope, $http, $state, validateService, objectLog) {
+.controller('registerCtrl', function($scope, $http, $state, validateService, objectLog, errorMessageSort) {
 
 	$scope.loginSubmit = function(username, password) {
 		$scope.validateFunc = validateService(username, password);
@@ -48,14 +45,11 @@ angular.module('app.controllers', ['app.services'])
 			};
 			$http.post('/auth/local/register', registerObj)
 			.success(function(res) {
-				console.log('Success!');
-				console.log(res);
-
+				if(res.errors.length > 0) {
+					$scope.loginErrorArray = errorMessageSort(res.errors[0]);
+				}
 				if(res.success) {
 					$state.go('dashboard');
-				}
-				else {
-					$scope.emailErrorMsg = res.errors;
 				}
 			})
 			.error(function(err) {
