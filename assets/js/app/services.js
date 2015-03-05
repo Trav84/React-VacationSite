@@ -99,4 +99,30 @@ angular.module('app.services', [])
 		}
 		return messageToFilter;
 	};
+})
+.factory('verify', function() {
+	return function(credentials) {
+		var assignmentObject = {
+			name: '',
+			dueAt: null, 
+			url: ''
+		};
+
+		if(validator.isNull(credentials.name) || credentials.name.length === 0) {
+			console.log('Assignment name is null or an empty string');
+		} else {
+			assignmentObject.name = credentials.name;
+		}
+		if(!validator.isDate(credentials.dueAt)) {
+			console.log('Date is incorrect');
+		} else {
+			assignmentObject.dueAt = credentials.dueAt;
+		}
+		if(!validator.isURL(credentials.url)) {
+			console.log('URL is not a valid URL');
+		} else {
+			assignmentObject.url = credentials.url;
+		}
+		return assignmentObject;
+	};
 });

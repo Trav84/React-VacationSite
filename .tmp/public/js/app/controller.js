@@ -62,6 +62,12 @@ angular.module('app.controllers', ['app.services'])
 .controller('dashboardCtrl', function() {
 
 })
-.controller('assignmentCtrl', function() {
+.controller('assignmentCtrl', function($scope, verify) {
+	$scope.assignmentSubmit = function(assignment) {
+		console.log('Submit clicked');
+		console.log($scope.assignment);
 
+		var object = verify($scope.assignment);
+		console.log(object);
+	};
 });
