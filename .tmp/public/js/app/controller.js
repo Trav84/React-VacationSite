@@ -64,10 +64,9 @@ angular.module('app.controllers', ['app.services'])
 })
 .controller('assignmentCtrl', function($scope, verify) {
 	$scope.assignmentSubmit = function(assignment) {
-		console.log('Submit clicked');
-		console.log($scope.assignment);
-
-		var object = verify($scope.assignment);
-		console.log(object);
+		$scope.assign = verify($scope.assignment);
+		if($scope.assign.valid) {
+			console.log($scope.assign);
+		}
 	};
 });

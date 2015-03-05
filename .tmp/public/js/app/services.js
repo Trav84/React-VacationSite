@@ -105,23 +105,32 @@ angular.module('app.services', [])
 		var assignmentObject = {
 			name: '',
 			dueAt: null, 
-			url: ''
+			url: '', 
+			nameError: '',
+			dueError: '',
+			urlError: '',
+			valid: false
 		};
 
 		if(validator.isNull(credentials.name) || credentials.name.length === 0) {
-			console.log('Assignment name is null or an empty string');
+			assignmentObject.nameError = 'Assignment name is not valid';
 		} else {
 			assignmentObject.name = credentials.name;
 		}
 		if(!validator.isDate(credentials.dueAt)) {
-			console.log('Date is incorrect');
+			assignmentObject.dueError = 'Date is incorrect';
 		} else {
 			assignmentObject.dueAt = credentials.dueAt;
 		}
 		if(!validator.isURL(credentials.url)) {
-			console.log('URL is not a valid URL');
+			assignmentObject.urlError = 'Enter a valid URL';
 		} else {
 			assignmentObject.url = credentials.url;
+		}
+		if(assignmentObject.nameError.length === 0 && 
+			assignmentObject.dueError.length === 0 && 
+			assignmentObject.urlError.length === 0) {
+			assignmentObject.valid = true;
 		}
 		return assignmentObject;
 	};
