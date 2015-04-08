@@ -1,8 +1,145 @@
-<section id="app-view"> 
-    <header>
-        <h1> Shopper </h1>
-        <h2> Dont Forget What You Need To Get! </h2>
-    </header>  
-    <main>
-        <h1> 
-</section>
+<body>
+	<header>
+		<h1> DayTripper </h1>
+		<h2> Places To Visit! </h2>
+	</header>  
+	<section id="mount-point"> </section>
+	<script type="text/jsx">
+		/**
+	   * @jsx React.DOM
+	   */
+
+		var Image = Backbone.Model.extend({
+			defaults : {
+				location    : null,
+				description: null,
+				picture : null
+			}
+		});
+
+		var image = new Image({
+			text: "Costa Rica",
+			description: "Osa Peninsula",
+			picture: "http://www.encantalavida.com/dev/images/park.jpg"
+		});
+
+
+		var CardComponent = React.createClass({
+			render : function() {
+				return (
+					<div className="card">
+						<div className="picture">
+							<img src={this.props.image.get("picture")} />
+						</div>
+						<div className="name">
+							{this.props.image.get("text")}
+							<small>
+			                	({this.props.image.get("description")})
+			                </small>
+						</div>
+					</div>
+				);
+			}
+		});
+
+		var RouterMixin = {
+			componentWillMount : function() {
+				this.callback = (function() {
+					this.forceUpdate();
+				}).bind(this);
+
+				this.props.router.on("route", this.callback);
+			},
+			componentWillUnmount : function() {
+				this.props.router.off("route", this.callback);
+			}
+		};
+
+		var FooComponent = React.createClass({
+			mixins : [RouterMixin],
+			handle : function() {
+				this.props.router.navigate("bar", {
+					trigger : true
+				});
+		},
+		render : function() {
+
+		var className = "animate-leave animate-leave-active";
+
+		if (this.props.router.current == "foo") {
+			className = "animate-enter animate-enter-active";
+		}
+
+		return (
+			<div className={className}>
+			in foo, 
+			<a onClick={this.handle}>go to bar</a>
+			</div>
+		);
+		}
+		});
+
+		var BarComponent = React.createClass({ 
+			mixins : [RouterMixin],
+			handle : function() {
+				this.props.router.navigate("foo", {
+				trigger : true
+			});
+		},
+		render : function() {
+		var className = "animate-leave animate-leave-active";
+
+		if (this.props.router.current == "bar") {
+			className = "animate-enter animate-enter-active";
+		}
+
+		return (
+			<div className={className}>
+			in bar, 
+			<a onClick={this.handle}>go to foo</a>
+			</div>
+		);
+		}
+		});
+
+		var InterfaceComponent = React.createClass({
+			mixins : [RouterMixin],
+			render : function() {
+				var router = this.props.router;
+				return (
+					<div>
+					<FooComponent router={router} />
+					<BarComponent router={router} />
+					</div>
+				);
+			}
+		});
+		
+		var Router = Backbone.Router.extend({
+			routes : {
+				"foo" : "foo",
+				"bar" : "bar"
+			},
+			foo : function() {
+				this.current = "foo";
+			},
+			bar : function() {
+				this.current = "bar";
+			}
+		});
+			 
+		var router = new Router();
+
+		React.render(
+			<CardComponent image={image} />,
+			document.getElementById('mount-point')
+		);
+
+		// React.render(
+		// 	<InterfaceComponent router={router} />,
+		// 	document.getElementById('mount-point')
+		// );
+			 
+		Backbone.history.start();
+	</script>
+</body>

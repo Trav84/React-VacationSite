@@ -57,12 +57,13 @@ table {
   border-spacing: 0; }
 
 body, html {
-  background-color: #F2F2F2; }
+  background-color: #F0F0F0; }
 
 header {
+  margin: 1em 1em;
   text-align: center;
-  background-color: #BEE2E7;
-  box-shadow: 5px 5px #A7CACD; }
+  background-color: #A8A8C0;
+  box-shadow: 5px 5px #9696A9; }
   header h1 {
     padding-top: 0.5em;
     font-size: 3em; }
@@ -71,5 +72,38 @@ header {
     font-size: 1.5em;
     font-style: italic;
     padding-bottom: 1em; }
+
+#mount-point {
+  text-align: center;
+  margin: 2em 0;
+  font-size: 2em; }
+
+.animate-enter {
+  opacity: 0.01;
+  transition: opacity .5s ease-in; }
+
+.animate-enter.animate-enter-active {
+  opacity: 1; }
+
+.animate-leave {
+  opacity: 1;
+  transition: opacity .5s ease-in; }
+
+.animate-leave.animate-leave-active {
+  opacity: 0.01; }
+
+a {
+  cursor: pointer;
+  color: blue; }
+
+.picture {
+  margin: 0 0 10px 0; }
+
+.card img {
+  height: 12em;
+  width: 10em;
+  box-shadow: 5px 5px 5px black; }
+.card img:hover {
+  box-shadow: 5px 5px 5px #181860; }
 
 /*# sourceMappingURL=importer.css.map */
