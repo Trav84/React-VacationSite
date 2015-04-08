@@ -60,10 +60,11 @@ body, html {
   background-color: #F0F0F0; }
 
 header {
+  color: white;
   margin: 1em 1em;
   text-align: center;
-  background-color: #A8A8C0;
-  box-shadow: 5px 5px #9696A9; }
+  background-color: #F3A108;
+  box-shadow: 5px 5px #DC6524; }
   header h1 {
     padding-top: 0.5em;
     font-size: 3em; }
@@ -73,9 +74,24 @@ header {
     font-style: italic;
     padding-bottom: 1em; }
 
+#image-poster {
+  text-align: center;
+  margin: 1em 1em;
+  background-color: #85C6A9;
+  box-shadow: 5px 5px #72B199;
+  padding: 0.5em 0.5em;
+  padding-bottom: 0; }
+  #image-poster input {
+    margin-right: 1em; }
+  #image-poster i {
+    margin-top: 0.2em; }
+  #image-poster i:hover {
+    color: #D93D04; }
+
 #mount-point {
   text-align: center;
   margin: 2em 0;
+  margin-top: 0.2em;
   font-size: 2em; }
 
 .animate-enter {
@@ -100,10 +116,14 @@ a {
   margin: 0 0 10px 0; }
 
 .card img {
-  height: 12em;
-  width: 10em;
-  box-shadow: 5px 5px 5px black; }
+  height: 10em;
+  width: 8em;
+  box-shadow: 5px 5px 5px black;
+  -webkit-transition: width 1s, height 1s;
+  transition: width 1s, height 1s; }
 .card img:hover {
-  box-shadow: 5px 5px 5px #181860; }
+  box-shadow: 5px 5px 5px #181860;
+  height: 12em;
+  width: 10em; }
 
 /*# sourceMappingURL=importer.css.map */

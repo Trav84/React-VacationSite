@@ -17,17 +17,21 @@
 			}
 		});
 
+		var Locations = Backbone.Collection.extend({
+			model: Image
+		});
+
 		var image = new Image({
 			text: "Costa Rica",
 			description: "Osa Peninsula",
 			picture: "http://www.encantalavida.com/dev/images/park.jpg"
 		});
 
-
 		var CardComponent = React.createClass({
 			render : function() {
 				return (
 					<div className="card">
+						<PostComponent />
 						<div className="picture">
 							<img src={this.props.image.get("picture")} />
 						</div>
@@ -54,6 +58,28 @@
 				this.props.router.off("route", this.callback);
 			}
 		};
+
+		var PostComponent = React.createClass({
+			handleClick: function(event) {
+				console.log(this.state.value);
+			},
+			getInitialState: function() {
+				return {value: ''};
+			},
+			handleChange: function(event) {
+				this.setState({value: event.target.value});
+			},
+			render : function() {
+				var value = this.state.value;
+				return (
+					<section id = "image-poster">
+						<input type="text" value={value} onChange={this.handleChange} />
+						<input type="text" value={description} onChange={this.handleChange} />
+						<i onClick={this.handleClick} className="fa fa-plane"></i>
+					</section>
+				);
+			}
+		});
 
 		var FooComponent = React.createClass({
 			mixins : [RouterMixin],
@@ -134,6 +160,11 @@
 			<CardComponent image={image} />,
 			document.getElementById('mount-point')
 		);
+
+		// React.render(
+		// 	<PostBar/>,
+		// 	document.getElementById('image-poster'))
+		// );
 
 		// React.render(
 		// 	<InterfaceComponent router={router} />,

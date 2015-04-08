@@ -3,10 +3,11 @@ body, html {
 }
 
 header {
+	color:white;
 	margin:1em 1em;
 	text-align:center;
-	background-color:#A8A8C0;
-	box-shadow:5px 5px #9696A9;
+	background-color:#F3A108;
+	box-shadow:5px 5px #DC6524;
 
 	h1 {
 		padding-top:0.5em;
@@ -21,9 +22,31 @@ header {
 	}
 }
 
+#image-poster {
+	text-align:center;
+	margin:1em 1em;
+	background-color: #85C6A9;
+	box-shadow:5px 5px #72B199;
+	padding:0.5em 0.5em;
+	padding-bottom:0;
+
+		input {
+			margin-right:1em;
+		}
+
+		i {
+			margin-top:0.2em;
+		}
+
+		i:hover {
+			color: #D93D04;
+		}
+}
+
 #mount-point {
 	text-align:center;
 	margin:2em 0;
+	margin-top:0.2em;
 	font-size:2em;
 }
 
@@ -56,12 +79,16 @@ a {
 
 .card {
 	img {
-		height:12em;
-		width:10em;
+		height:10em;
+		width:8em;
 		box-shadow:5px 5px 5px black;
+		-webkit-transition:width 1s, height 1s;
+    	transition:width 1s, height 1s;
 	}
 
 	img:hover {
 		box-shadow:5px 5px 5px #181860;
+		height:12em;
+		width:10em;
 	}
 }
