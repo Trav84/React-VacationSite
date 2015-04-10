@@ -78,7 +78,9 @@ a {
 }
 
 .card {
+
 	img {
+		margin:1em 1em;
 		height:10em;
 		width:8em;
 		box-shadow:5px 5px 5px black;
@@ -86,9 +88,9 @@ a {
     	transition:width 1s, height 1s;
 	}
 
-	img:hover {
-		box-shadow:5px 5px 5px #181860;
-		height:12em;
-		width:10em;
-	}
+	// img:hover {
+	// 	box-shadow:5px 5px 5px #181860;
+	// 	height:12em;
+	// 	width:10em;
+	// }
 }

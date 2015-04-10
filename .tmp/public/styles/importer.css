@@ -116,14 +116,11 @@ a {
   margin: 0 0 10px 0; }
 
 .card img {
+  margin: 1em 1em;
   height: 10em;
   width: 8em;
   box-shadow: 5px 5px 5px black;
   -webkit-transition: width 1s, height 1s;
   transition: width 1s, height 1s; }
-.card img:hover {
-  box-shadow: 5px 5px 5px #181860;
-  height: 12em;
-  width: 10em; }
 
 /*# sourceMappingURL=importer.css.map */

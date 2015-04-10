@@ -12,22 +12,42 @@
 		handleSubmit: function(e) {
 			console.log('clicked');
 			e.preventDefault();
-			var location = React.findDOMNode(this.refs.location).value;
-			var url = React.findDOMNode(this.ref.url).value;
-			if (!title || !text || !url) {
-				return;
-			}
+			console.log(React.findDOMNode(this.refs.link).value);
+
+			var locationObject = {
+				Title: '',
+				URL: ''
+			};
+			console.log(locationObject);
+
+			locationObject.Title = React.findDOMNode(this.refs.location).value;
+			locationObject.URL = React.findDOMNode(this.refs.link).value;
+
 		    React.findDOMNode(this.refs.location).value = '';
-		    React.findDOMNode(this.refs.description).value = '';
 		    React.findDOMNode(this.refs.url).value = '';
-   			return;
-   			},
+		    
+			$.ajax({
+				url: 'http://tiny-pizza-server.herokuapp.com/collections/trav-react/',
+				dataType: 'json',
+				type: 'POST',
+				data: locationObject,
+				success: function(data) {
+					console.log('Successful post');
+					this.setState({locationObject: locationObject});
+				}.bind(this),
+				error: function(xhr, status, err) {
+					//console.error(this.props.url, status, err.toString());
+				}.bind(this)
+			});
+
+			return;	
+		},
 		render: function() {
 			return (
 				<div className = "image-poster">
-					<form>
+					<form onSubmit={this.handleSubmit}>
 						<input type="text" placeholder="Location" ref="location" />
-						<input type="text" placeholder="Image URL" ref="url" />
+						<input type="url" placeholder="Image URL" ref="link" />
 						<br/>
 						<input type="submit" value="Post" />
 					</form>
@@ -44,23 +64,34 @@
 			var self = this;
 			var url = 'http://tiny-pizza-server.herokuapp.com/collections/trav-react';
 			$.getJSON(url, function(result) {
-				console.log(result);
 				if(!result){
                		return;
            		}
 
-           	var pictures = result;
-           	
-            self.setState({ pictures: pictures });
+           		var pictures = result.map(function(p){
+                return { 
+                    id: p._id, 
+                    src: p.URL, 
+                    title: p.Title 
+                };
 
+            });
+
+            self.setState({ pictures: pictures });
         	});
 		},
 		render: function() {
 	        var self = this;
 
 	        var pictures = this.state.pictures.map(function(p){
-	            return <img ref={p._id} src={p.url} title={p.title}  />
+	            return (
+	            	<div>
+	            		<img ref={p._id} src={p.src} title={p.title}  />
+	            		<span> {p.title} </span>
+	            	</div>
+	            	);
 	        });
+	        console.log(self.state);
 
 	        if(!pictures.length){
 	            pictures = <p>Loading images..</p>;
@@ -68,8 +99,11 @@
 
 	        return (
 	            <div>
-	                <h1>My Pictures</h1>
-	                <div className="pictures"> {pictures} </div>
+	            	<PostComponent />
+	                <h1>Locales to Visit</h1>
+	                <div className="card"> {pictures} 
+	                	<h2> {pictures.title} </h2>
+	                </div>
 	            </div>
 	        );
 	    }
@@ -79,113 +113,5 @@
 	    <TripList />,
 	    document.getElementById('mount-point')
 	);
-
-
-// var PictureList = React.createClass({
-//     getInitialState: function(){
-//         return { pictures: [], favorites: [] };
-//     },
-//     componentDidMount: function(){
-//         // When the component loads, send a jQuery AJAX request
-//         var self = this;
-//         // API endpoint for Instagram's popular images for the day
-//         var url = 'https://api.instagram.com/v1/media/popular?client_id=' + this.props.apiKey + '&callback=?';
-//         $.getJSON(url, function(result){
-
-//             if(!result || !result.data || !result.data.length){
-//                 return;
-//             }
-
-//             var pictures = result.data.map(function(p){
-
-//                 return { 
-//                     id: p.id, 
-//                     url: p.link, 
-//                     src: p.images.low_resolution.url, 
-//                     title: p.caption ? p.caption.text : '', 
-//                     favorite: false 
-//                 };
-
-//             });
-
-//             // Update the component's state. This will trigger a render.
-//             // Note that this only updates the pictures property, and does
-//             // not remove the favorites array.
-
-//             self.setState({ pictures: pictures });
-
-//         });
-
-//     },
-
-
-//     render: function() {
-
-//         var self = this;
-
-//         var pictures = this.state.pictures.map(function(p){
-//             return <Picture ref={p.id} src={p.src} title={p.title} favorite={p.favorite} onClick={self.pictureClick} />
-//         });
-
-//         if(!pictures.length){
-//             pictures = <p>Loading images..</p>;
-//         }
-
-//         var favorites = this.state.favorites.map(function(p){
-//             return <Picture ref={p.id} src={p.src} title={p.title} favorite={true} onClick={self.favoriteClick} />
-//         });
-
-//         if(!favorites.length){
-//             favorites = <p>Click an image to mark it as a favorite.</p>;
-//         }
-
-//         return (
-
-//             <div>
-//                 <h1>Popular Instagram pics</h1>
-//                 <div className="pictures"> {pictures} </div>
-                    
-//                 <h1>Your favorites</h1>
-//                 <div className="favorites"> {favorites} </div>
-//             </div>
-
-//         );
-//     }
-// });
-
-
-// // Render the PictureList component, and add it to body.
-// // I am using an API key for a Instagram test ap. Please generate and 
-// // use your own from here http://instagram.com/developer/
-
-// React.render(
-//     <PictureList apiKey="642176ece1e7445e99244cec26f4de1f" />,
-//     document.body
-// );
-
-		// var data = [
-		// 	{text: "Pete Hunt", text: "This is one comment"},
-		// 	{description: "Jordan Walke", text: "This is *another* comment"}
-		// ];
-
-		// var TripComponent = React.createClass({
-		// 	render : function() {
-		// 		return (
-		// 			<div className="card">
-		// 				<PostComponent />
-		// 				<div className="picture">
-		// 					<img src={this.props.image.get("picture")} />
-		// 				</div>
-		// 				<div className="name">
-		// 					{this.props.image.get("text")}
-		// 					<br/>
-		// 					<small>
-		// 	                	{this.props.image.get("description")}
-		// 	                </small>
-		// 				</div>
-		// 			</div>
-		// 		);
-		// 	}
-		// });		 
 	</script>
 </body>
