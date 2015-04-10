@@ -5,172 +5,187 @@
 	</header>  
 	<section id="mount-point"> </section>
 	<script type="text/jsx">
-		/**
-	   * @jsx React.DOM
-	   */
 
-		var Image = Backbone.Model.extend({
-			defaults : {
-				location    : null,
-				description: null,
-				picture : null
+	/** @jsx React.DOM */
+
+	var PostComponent = React.createClass({
+		handleSubmit: function(e) {
+			console.log('clicked');
+			e.preventDefault();
+			var location = React.findDOMNode(this.refs.location).value;
+			var url = React.findDOMNode(this.ref.url).value;
+			if (!title || !text || !url) {
+				return;
 			}
-		});
+		    React.findDOMNode(this.refs.location).value = '';
+		    React.findDOMNode(this.refs.description).value = '';
+		    React.findDOMNode(this.refs.url).value = '';
+   			return;
+   			},
+		render: function() {
+			return (
+				<div className = "image-poster">
+					<form>
+						<input type="text" placeholder="Location" ref="location" />
+						<input type="text" placeholder="Image URL" ref="url" />
+						<br/>
+						<input type="submit" value="Post" />
+					</form>
+				</div>
+			)
+		}
+	});
 
-		var Locations = Backbone.Collection.extend({
-			model: Image
-		});
-
-		var image = new Image({
-			text: "Costa Rica",
-			description: "Osa Peninsula",
-			picture: "http://www.encantalavida.com/dev/images/park.jpg"
-		});
-
-		var CardComponent = React.createClass({
-			render : function() {
-				return (
-					<div className="card">
-						<PostComponent />
-						<div className="picture">
-							<img src={this.props.image.get("picture")} />
-						</div>
-						<div className="name">
-							{this.props.image.get("text")}
-							<small>
-			                	({this.props.image.get("description")})
-			                </small>
-						</div>
-					</div>
-				);
-			}
-		});
-
-		var RouterMixin = {
-			componentWillMount : function() {
-				this.callback = (function() {
-					this.forceUpdate();
-				}).bind(this);
-
-				this.props.router.on("route", this.callback);
-			},
-			componentWillUnmount : function() {
-				this.props.router.off("route", this.callback);
-			}
-		};
-
-		var PostComponent = React.createClass({
-			handleClick: function(event) {
-				console.log(this.state.value);
-			},
-			getInitialState: function() {
-				return {value: ''};
-			},
-			handleChange: function(event) {
-				this.setState({value: event.target.value});
-			},
-			render : function() {
-				var value = this.state.value;
-				return (
-					<section id = "image-poster">
-						<input type="text" value={value} onChange={this.handleChange} />
-						<input type="text" value={description} onChange={this.handleChange} />
-						<i onClick={this.handleClick} className="fa fa-plane"></i>
-					</section>
-				);
-			}
-		});
-
-		var FooComponent = React.createClass({
-			mixins : [RouterMixin],
-			handle : function() {
-				this.props.router.navigate("bar", {
-					trigger : true
-				});
+	var TripList = React.createClass({ 
+		getInitialState: function() {
+			return { pictures: [] };
 		},
-		render : function() {
+		componentDidMount: function() {
+			var self = this;
+			var url = 'http://tiny-pizza-server.herokuapp.com/collections/trav-react';
+			$.getJSON(url, function(result) {
+				console.log(result);
+				if(!result){
+               		return;
+           		}
 
-		var className = "animate-leave animate-leave-active";
+           	var pictures = result;
+           	
+            self.setState({ pictures: pictures });
 
-		if (this.props.router.current == "foo") {
-			className = "animate-enter animate-enter-active";
-		}
-
-		return (
-			<div className={className}>
-			in foo, 
-			<a onClick={this.handle}>go to bar</a>
-			</div>
-		);
-		}
-		});
-
-		var BarComponent = React.createClass({ 
-			mixins : [RouterMixin],
-			handle : function() {
-				this.props.router.navigate("foo", {
-				trigger : true
-			});
+        	});
 		},
-		render : function() {
-		var className = "animate-leave animate-leave-active";
+		render: function() {
+	        var self = this;
 
-		if (this.props.router.current == "bar") {
-			className = "animate-enter animate-enter-active";
-		}
+	        var pictures = this.state.pictures.map(function(p){
+	            return <img ref={p._id} src={p.url} title={p.title}  />
+	        });
 
-		return (
-			<div className={className}>
-			in bar, 
-			<a onClick={this.handle}>go to foo</a>
-			</div>
-		);
-		}
-		});
+	        if(!pictures.length){
+	            pictures = <p>Loading images..</p>;
+	        }
 
-		var InterfaceComponent = React.createClass({
-			mixins : [RouterMixin],
-			render : function() {
-				var router = this.props.router;
-				return (
-					<div>
-					<FooComponent router={router} />
-					<BarComponent router={router} />
-					</div>
-				);
-			}
-		});
-		
-		var Router = Backbone.Router.extend({
-			routes : {
-				"foo" : "foo",
-				"bar" : "bar"
-			},
-			foo : function() {
-				this.current = "foo";
-			},
-			bar : function() {
-				this.current = "bar";
-			}
-		});
-			 
-		var router = new Router();
+	        return (
+	            <div>
+	                <h1>My Pictures</h1>
+	                <div className="pictures"> {pictures} </div>
+	            </div>
+	        );
+	    }
+	});
 
-		React.render(
-			<CardComponent image={image} />,
-			document.getElementById('mount-point')
-		);
+	React.render(
+	    <TripList />,
+	    document.getElementById('mount-point')
+	);
 
-		// React.render(
-		// 	<PostBar/>,
-		// 	document.getElementById('image-poster'))
-		// );
 
-		// React.render(
-		// 	<InterfaceComponent router={router} />,
-		// 	document.getElementById('mount-point')
-		// );
-			 
-		Backbone.history.start();
+// var PictureList = React.createClass({
+//     getInitialState: function(){
+//         return { pictures: [], favorites: [] };
+//     },
+//     componentDidMount: function(){
+//         // When the component loads, send a jQuery AJAX request
+//         var self = this;
+//         // API endpoint for Instagram's popular images for the day
+//         var url = 'https://api.instagram.com/v1/media/popular?client_id=' + this.props.apiKey + '&callback=?';
+//         $.getJSON(url, function(result){
+
+//             if(!result || !result.data || !result.data.length){
+//                 return;
+//             }
+
+//             var pictures = result.data.map(function(p){
+
+//                 return { 
+//                     id: p.id, 
+//                     url: p.link, 
+//                     src: p.images.low_resolution.url, 
+//                     title: p.caption ? p.caption.text : '', 
+//                     favorite: false 
+//                 };
+
+//             });
+
+//             // Update the component's state. This will trigger a render.
+//             // Note that this only updates the pictures property, and does
+//             // not remove the favorites array.
+
+//             self.setState({ pictures: pictures });
+
+//         });
+
+//     },
+
+
+//     render: function() {
+
+//         var self = this;
+
+//         var pictures = this.state.pictures.map(function(p){
+//             return <Picture ref={p.id} src={p.src} title={p.title} favorite={p.favorite} onClick={self.pictureClick} />
+//         });
+
+//         if(!pictures.length){
+//             pictures = <p>Loading images..</p>;
+//         }
+
+//         var favorites = this.state.favorites.map(function(p){
+//             return <Picture ref={p.id} src={p.src} title={p.title} favorite={true} onClick={self.favoriteClick} />
+//         });
+
+//         if(!favorites.length){
+//             favorites = <p>Click an image to mark it as a favorite.</p>;
+//         }
+
+//         return (
+
+//             <div>
+//                 <h1>Popular Instagram pics</h1>
+//                 <div className="pictures"> {pictures} </div>
+                    
+//                 <h1>Your favorites</h1>
+//                 <div className="favorites"> {favorites} </div>
+//             </div>
+
+//         );
+//     }
+// });
+
+
+// // Render the PictureList component, and add it to body.
+// // I am using an API key for a Instagram test ap. Please generate and 
+// // use your own from here http://instagram.com/developer/
+
+// React.render(
+//     <PictureList apiKey="642176ece1e7445e99244cec26f4de1f" />,
+//     document.body
+// );
+
+		// var data = [
+		// 	{text: "Pete Hunt", text: "This is one comment"},
+		// 	{description: "Jordan Walke", text: "This is *another* comment"}
+		// ];
+
+		// var TripComponent = React.createClass({
+		// 	render : function() {
+		// 		return (
+		// 			<div className="card">
+		// 				<PostComponent />
+		// 				<div className="picture">
+		// 					<img src={this.props.image.get("picture")} />
+		// 				</div>
+		// 				<div className="name">
+		// 					{this.props.image.get("text")}
+		// 					<br/>
+		// 					<small>
+		// 	                	{this.props.image.get("description")}
+		// 	                </small>
+		// 				</div>
+		// 			</div>
+		// 		);
+		// 	}
+		// });		 
 	</script>
 </body>
