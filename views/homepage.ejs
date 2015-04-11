@@ -11,6 +11,7 @@
 	var PostComponent = React.createClass({
 		handleSubmit: function(e) {
 			console.log('clicked');
+
 			e.preventDefault();
 			console.log(React.findDOMNode(this.refs.link).value);
 
@@ -18,13 +19,12 @@
 				Title: '',
 				URL: ''
 			};
-			console.log(locationObject);
 
 			locationObject.Title = React.findDOMNode(this.refs.location).value;
 			locationObject.URL = React.findDOMNode(this.refs.link).value;
 
 		    React.findDOMNode(this.refs.location).value = '';
-		    React.findDOMNode(this.refs.url).value = '';
+		    React.findDOMNode(this.refs.link).value = '';
 		    
 			$.ajax({
 				url: 'http://tiny-pizza-server.herokuapp.com/collections/trav-react/',
@@ -36,7 +36,7 @@
 					this.setState({locationObject: locationObject});
 				}.bind(this),
 				error: function(xhr, status, err) {
-					//console.error(this.props.url, status, err.toString());
+					console.error(this.props.link, status, err.toString());
 				}.bind(this)
 			});
 
@@ -46,10 +46,10 @@
 			return (
 				<div className = "image-poster">
 					<form onSubmit={this.handleSubmit}>
-						<input type="text" placeholder="Location" ref="location" />
-						<input type="url" placeholder="Image URL" ref="link" />
+						<input className ="input" type="text" placeholder="Location" ref="location" />
+						<input className ="input" type="url" placeholder="Image URL" ref="link" />
 						<br/>
-						<input type="submit" value="Post" />
+						<input className ="button" type="submit" value="Post" />
 					</form>
 				</div>
 			)
@@ -63,22 +63,25 @@
 		componentDidMount: function() {
 			var self = this;
 			var url = 'http://tiny-pizza-server.herokuapp.com/collections/trav-react';
-			$.getJSON(url, function(result) {
-				if(!result){
-               		return;
-           		}
 
-           		var pictures = result.map(function(p){
-                return { 
-                    id: p._id, 
-                    src: p.URL, 
-                    title: p.Title 
-                };
+			setInterval(function() {
+				$.getJSON(url, function(result) {
+					if(!result){
+	               		return;
+	           		}
 
-            });
+	           		var pictures = result.map(function(p){
+	                return { 
+	                    id: p._id, 
+	                    src: p.URL, 
+	                    title: p.Title 
+	                };
 
-            self.setState({ pictures: pictures });
-        	});
+	            });
+
+	            self.setState({ pictures: pictures });
+	        	});
+			}, 2000);
 		},
 		render: function() {
 	        var self = this;
@@ -87,11 +90,10 @@
 	            return (
 	            	<div>
 	            		<img ref={p._id} src={p.src} title={p.title}  />
-	            		<span> {p.title} </span>
+	            		<h1> {p.title} </h1>
 	            	</div>
 	            	);
 	        });
-	        console.log(self.state);
 
 	        if(!pictures.length){
 	            pictures = <p>Loading images..</p>;
@@ -100,18 +102,18 @@
 	        return (
 	            <div>
 	            	<PostComponent />
-	                <h1>Locales to Visit</h1>
-	                <div className="card"> {pictures} 
-	                	<h2> {pictures.title} </h2>
-	                </div>
+	                <div className="card"> {pictures} </div>
 	            </div>
 	        );
 	    }
 	});
 
-	React.render(
-	    <TripList />,
-	    document.getElementById('mount-point')
-	);
+
+		React.render(
+		    <TripList />,
+		    document.getElementById('mount-point')
+		);
+
+
 	</script>
 </body>
