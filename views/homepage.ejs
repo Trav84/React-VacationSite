@@ -10,7 +10,6 @@
 
 	var PostComponent = React.createClass({
 		handleSubmit: function(e) {
-			console.log('clicked');
 
 			e.preventDefault();
 			console.log(React.findDOMNode(this.refs.link).value);
@@ -32,7 +31,6 @@
 				type: 'POST',
 				data: locationObject,
 				success: function(data) {
-					console.log('Successful post');
 					this.setState({locationObject: locationObject});
 				}.bind(this),
 				error: function(xhr, status, err) {
