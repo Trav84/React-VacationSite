@@ -27,7 +27,8 @@
 		    React.findDOMNode(this.refs.link).value = '';
 		    
 			$.ajax({
-				url: 'https://tiny-pizza-server.herokuapp.com/collections/trav-react/',
+				url: '/Trip',
+				//url: 'https://tiny-pizza-server.herokuapp.com/collections/trav-react/',
 				dataType: 'json',
 				type: 'POST',
 				data: locationObject,
@@ -62,7 +63,8 @@
 		},
 		componentDidMount: function() {
 			var self = this;
-			var url = 'https://tiny-pizza-server.herokuapp.com/collections/trav-react';
+			//var url = 'https://tiny-pizza-server.herokuapp.com/collections/trav-react';
+			var url = '/Trip';
 
 			setInterval(function() {
 				$.getJSON(url, function(result) {
@@ -108,12 +110,10 @@
 	    }
 	});
 
-
-		React.render(
-		    <TripList />,
-		    document.getElementById('mount-point')
-		);
-
+	React.render(
+	    <TripList />,
+	    document.getElementById('mount-point')
+	);
 
 	</script>
 </body>
