@@ -100,14 +100,25 @@ header {
 .card div {
   display: inline-block; }
 .card h1 {
-  font-weight: 700; }
+  font-weight: 700;
+  padding: 0.5em 0;
+  width: 80%;
+  margin: 0 auto;
+  box-shadow: 5px 5px #DC6524;
+  background-color: #F3A108; }
 .card img {
   margin: 1em 1em;
+  margin-bottom: 0.2em;
   height: 10em;
   width: 8em;
   box-shadow: 5px 5px 5px black;
   -webkit-transition: width 1s, height 1s;
   transition: width 1s, height 1s; }
+.card i {
+  margin-left: 0.5em;
+  font-size: 0.8em; }
+.card i:hover {
+  color: #F0F0F0; }
 
 .button {
   padding: 0.5em 1em;

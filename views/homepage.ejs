@@ -55,8 +55,15 @@
 	});
 
 	var TripList = React.createClass({ 
+		incrementLike: function(e) {
+			console.log('Clicked');
+			this.setState({ like: this.state.like+1 });
+		},
 		getInitialState: function() {
-			return { pictures: [] };
+			return { 
+				like: 0,
+				pictures: [] 
+			};
 		},
 		componentDidMount: function() {
 			var self = this;
@@ -101,7 +108,7 @@
 	        return (
 	            <div>
 	            	<PostComponent />
-	                <div className="card"> {pictures} </div>
+	                <div className="card" onClick={this.incrementLike}> {pictures} </div>
 	            </div>
 	        );
 	    }
